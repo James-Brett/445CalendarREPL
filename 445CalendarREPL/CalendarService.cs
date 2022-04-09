@@ -5,7 +5,7 @@ namespace _445CalendarREPL
 {
     public static class CalendarService
     {
-        public static FiscalYear FourFourFiveCalendarForYear(int year)
+        public static CalendarFiscalYear FourFourFiveCalendarForYear(int year)
         {
             throw new NotImplementedException();
         }

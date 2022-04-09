@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "445CalendarREPL", "445CalendarREPL\445CalendarREPL.csproj", "{BE71592E-18A5-4352-94F3-3ED65D68D814}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{E435FC38-56EA-4490-95DE-88EAD8505A17}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BE71592E-18A5-4352-94F3-3ED65D68D814} = {BE71592E-18A5-4352-94F3-3ED65D68D814}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
