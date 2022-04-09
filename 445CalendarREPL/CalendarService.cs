@@ -7,7 +7,7 @@ namespace _445CalendarREPL
     {
         public static CalendarFiscalYear FourFourFiveCalendarForYear(int year)
         {
-            throw new NotImplementedException();
+            return new CalendarFiscalYear();
         }
     }
 }
