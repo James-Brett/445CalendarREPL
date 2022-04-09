@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Tests
 {
-    public class UnitTest1
+    public class CalendarServiceTests
     {
         [Fact]
         public void Test1()
