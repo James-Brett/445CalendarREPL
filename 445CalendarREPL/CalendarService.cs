@@ -8,7 +8,7 @@ namespace _445CalendarREPL
     public static class CalendarService
     {
         private const DayOfWeek _firstDayOfTheWeek = DayOfWeek.Monday;
-        private const int _startingMonthIndex = 0; //denotes which month should be the first. NB january = 0 
+        private const int _startingMonthIndex = 1; //denotes which month should be the first. NB january = 1
         private const int _quartersInAYear = 4;
         private const int _monthsInAQuarter = 3;
         private static readonly int[] _weeksInAMonthPattern = new[] { 4, 4, 5 }; // valid patterns are 445, 454, 544
@@ -16,7 +16,7 @@ namespace _445CalendarREPL
 
         public static CalendarFiscalYear FourFourFiveCalendarForYear(int year)
         {
-            var firstOfGivenYear = DateTime.ParseExact($"01/{_startingMonthIndex}/{year}", "MM/dd/yyyy", CultureInfo.InvariantCulture);
+            var firstOfGivenYear = new DateTime(year, _startingMonthIndex, 1);
             var dayOfWeek = firstOfGivenYear.DayOfWeek;
             var daysToBacktrack = (int)dayOfWeek - (int)_firstDayOfTheWeek; // this is the number of days we need to go back to get to the start of the week
 
@@ -67,7 +67,7 @@ namespace _445CalendarREPL
         private static string FiscalMonthName(int quarterIndex, int monthInQuarterIndex)
         {
             var monthIndex = quarterIndex * _monthsInAQuarter + monthInQuarterIndex + 1;
-            return CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(monthIndex);
+            return CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(monthIndex);
         }
     }
 }
