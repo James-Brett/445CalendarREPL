@@ -36,6 +36,7 @@ namespace _445CalendarREPL
                     var month = new CalendarFiscalMonth
                     {
                         FiscalMonth = FiscalMonthName(i, j),
+                        Quarter = i + 1,
                         NumberOfWeeks = weeksInMonth,
                         Weeks = new List<CalendarFiscalWeek>()
                     };
@@ -66,8 +67,8 @@ namespace _445CalendarREPL
 
         private static string FiscalMonthName(int quarterIndex, int monthInQuarterIndex)
         {
-            var monthIndex = quarterIndex * _monthsInAQuarter + monthInQuarterIndex + 1;
-            return CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(monthIndex);
+            var monthNumber = quarterIndex * _monthsInAQuarter + monthInQuarterIndex + 1;
+            return CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(monthNumber);
         }
     }
 }
