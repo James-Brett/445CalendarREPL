@@ -8,52 +8,74 @@ namespace Tests
     {
         private const int _gapWeekYear = 2023;
 
-        [Fact]
-        public void ReturnsFiscalYear()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2022)]
+        [InlineData(_gapWeekYear)]
+        [InlineData(2024)]
+        public void ReturnsFiscalYear(int year)
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(year);
             Assert.NotNull(result);
         }
 
-        [Fact]
-        public void ReturnsFiscalYearWith364Days()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2022)]
+        [InlineData(2024)]
+        public void ReturnsFiscalYearWith364Days(int year)
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(year);
             var days = result.Months
                 .SelectMany(m => m.Weeks)
                 .SelectMany(w => w.Days);
             Assert.Equal(364, days.Count());
         }
 
-        [Fact]
-        public void ReturnsFiscalYearWith52Weeks()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2022)]
+        [InlineData(2024)]
+        public void ReturnsFiscalYearWith52Weeks(int year)
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(year);
             var weeks = result.Months
                 .SelectMany(m => m.Weeks);
             Assert.Equal(52, weeks.Count());
         }
 
-        [Fact]
-        public void ReturnsFiscalYearWith12Months()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2022)]
+        [InlineData(_gapWeekYear)]
+        [InlineData(2024)]
+        public void ReturnsFiscalYearWith12Months(int year)
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(year);
             var months = result.Months;
             Assert.Equal(12, months.Count());
         }
 
-        [Fact]
-        public void StartsWithJanuary()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2022)]
+        [InlineData(_gapWeekYear)]
+        [InlineData(2024)]
+        public void StartsWithJanuary(int year)
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(year);
             var monthName = result.Months.First().FiscalMonth;
             Assert.Equal("January", monthName);
         }
 
-        [Fact]
-        public void EndsWithDecember()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2022)]
+        [InlineData(_gapWeekYear)]
+        [InlineData(2024)]
+        public void EndsWithDecember(int year)
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(year);
             var monthName = result.Months.Last().FiscalMonth;
             Assert.Equal("December", monthName);
         }
@@ -66,18 +88,25 @@ namespace Tests
             Assert.Equal("27/12/2021", firstDate);
         }
 
-        [Fact]
-        public void SevenDaysInAllTheWeeks()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2022)]
+        [InlineData(_gapWeekYear)]
+        [InlineData(2024)]
+        public void SevenDaysInAllTheWeeks(int year)
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(year);
             var weeks = result.Months.SelectMany(m => m.Weeks);
             Assert.All(weeks, w => Assert.Equal(7, w.Days.Count));
         }
 
-        [Fact]
-        public void Follows445Pattern()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2022)]
+        [InlineData(2024)]
+        public void Follows445Pattern(int year)
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(year);
             var pattern = "";
             foreach (var month in result.Months)
             {
@@ -104,7 +133,7 @@ namespace Tests
         {
             var result = CalendarService.FourFourFiveCalendarForYear(_gapWeekYear);
             var firstDate = result.Months.First().Weeks.First().Days.First();
-            Assert.Equal("27/12/2021", firstDate);
+            Assert.Equal("26/12/2022", firstDate);
         }
 
         [Fact]
@@ -118,7 +147,7 @@ namespace Tests
         [Fact]
         public void Follows445Pattern_GapWeek()
         {
-            var result = CalendarService.FourFourFiveCalendarForYear(1);
+            var result = CalendarService.FourFourFiveCalendarForYear(_gapWeekYear);
             var pattern = "";
             foreach (var month in result.Months)
             {
