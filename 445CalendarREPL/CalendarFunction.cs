@@ -14,7 +14,7 @@ namespace _445CalendarREPL
             var yearString = req.Query["year"];
             if (!int.TryParse(yearString, out var year) || year < 0)
             {
-                return new BadRequestObjectResult($"{yearString} could not be parsed into a valid calendar year");
+                return new BadRequestObjectResult($"'{yearString}' could not be parsed into a valid calendar year");
             }
 
             var calendar = CalendarService.FourFourFiveCalendarForYear(year);
