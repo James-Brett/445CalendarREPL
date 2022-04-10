@@ -9,7 +9,7 @@ namespace _445CalendarREPL
     {
         [FunctionName("FourFourFiveCalendar")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
         {
             var yearString = req.Query["year"];
             if (!int.TryParse(yearString, out var year) || year < 0)
