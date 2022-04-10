@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace _445CalendarREPL
 {
     public static class CalendarService
     {
         private const DayOfWeek _firstDayOfTheWeek = DayOfWeek.Monday;
-        private const int _startingMonthIndex = 1; //denotes which month should be the first. NB january = 1
+        private const int _startingMonth = 1; //denotes which month should be the first. NB january = 1
         private const int _quartersInAYear = 4;
         private const int _monthsInAQuarter = 3;
         private static readonly int[] _weeksInAMonthPattern = new[] { 4, 4, 5 }; // valid patterns are 445, 454, 544
@@ -16,9 +17,9 @@ namespace _445CalendarREPL
 
         public static CalendarFiscalYear FourFourFiveCalendarForYear(int year)
         {
-            var firstOfGivenYear = new DateTime(year, _startingMonthIndex, 1);
+            var firstOfGivenYear = new DateTime(year, _startingMonth, 1);
             var dayOfWeek = firstOfGivenYear.DayOfWeek;
-            var daysToBacktrack = (int)dayOfWeek - (int)_firstDayOfTheWeek; // this is the number of days we need to go back to get to the start of the week
+            var daysToBacktrack = ((int)dayOfWeek - (int)_firstDayOfTheWeek + _daysInAWeek) % _daysInAWeek ; // this is the number of days we need to go back to get to the start of the week
 
             var date = firstOfGivenYear - TimeSpan.FromDays(daysToBacktrack);
 
@@ -62,6 +63,21 @@ namespace _445CalendarREPL
                 }
             }
 
+            if (YearRequiresAGapWeek(date))
+            {
+                var lastMonth = output.Months.Last();
+                lastMonth.NumberOfWeeks++;
+                
+                var gapWeek = new CalendarFiscalWeek() { WeekNumber = lastMonth.NumberOfWeeks, Days = new() };
+                for (int i = 0; i < _daysInAWeek; i++)
+                {
+                    gapWeek.Days.Add(date.ToShortDateString());
+                    date += TimeSpan.FromDays(1);
+                }
+
+                lastMonth.Weeks.Add(gapWeek);
+            }
+
             return output;
         }
 
@@ -69,6 +85,12 @@ namespace _445CalendarREPL
         {
             var monthNumber = quarterIndex * _monthsInAQuarter + monthInQuarterIndex + 1;
             return CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(monthNumber);
+        }
+
+        private static bool YearRequiresAGapWeek(DateTime nextDateNotYetInCalendar)
+        {
+            //if advancing a week does not advance the year, we need a gap week
+            return (nextDateNotYetInCalendar + TimeSpan.FromDays(_daysInAWeek - 1)).Year == nextDateNotYetInCalendar.Year;
         }
     }
 }
