@@ -14,6 +14,8 @@ namespace _445CalendarREPL
         private static readonly int[] _weeksInAMonthPattern = new[] { 4, 4, 5 }; // valid patterns are 445, 454, 544
         private const int _daysInAWeek = 7;
 
+        private const string _dateFormat = "dd/MM/yyyy";
+
         public static CalendarFiscalYear FourFourFiveCalendarForYear(int year)
         {
             var firstOfGivenYear = new DateTime(year, _startingMonth, 1);
@@ -37,7 +39,7 @@ namespace _445CalendarREPL
                         
                         for (int l = 0; l < _daysInAWeek; l++)
                         {
-                            week.Days.Add(date.ToShortDateString());
+                            week.Days.Add(date.ToString(_dateFormat));
                             date += TimeSpan.FromDays(1);
                         }
 
@@ -56,7 +58,7 @@ namespace _445CalendarREPL
                 var gapWeek = new CalendarFiscalWeek(lastMonth.NumberOfWeeks);
                 for (int i = 0; i < _daysInAWeek; i++)
                 {
-                    gapWeek.Days.Add(date.ToShortDateString());
+                    gapWeek.Days.Add(date.ToString(_dateFormat));
                     date += TimeSpan.FromDays(1);
                 }
 
